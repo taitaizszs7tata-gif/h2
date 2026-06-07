@@ -1,12 +1,13 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { Bell, ChevronDown, CircleHelp, FolderOpen, Grid3X3, KeyRound, Lock, Plus, Search, Settings, Sparkles, Trash2, Users } from "lucide-react"
+import { Bell, ChevronDown, ChevronRight, FolderOpen, KeyRound, Plus, Search, Star } from "lucide-react"
 import { mockProjects } from "@/lib/mock-data"
 import type { Project } from "@/lib/types"
 
 export function ProjectSelection({ onSelectProject }: { onSelectProject: (project: Project) => void }) {
   const [searchQuery, setSearchQuery] = useState("")
+  const [expandedSection, setExpandedSection] = useState<"favorites" | "recent" | null>(null)
   const projects = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
     if (!query) return mockProjects
@@ -35,36 +36,28 @@ export function ProjectSelection({ onSelectProject }: { onSelectProject: (projec
         </div>
 
         <nav className="flex-1 p-3 space-y-1">
-          <NavItem icon={<Sparkles className="w-4 h-4" />} label="H² AI" badge="NEW" />
-          <NavItem icon={<KeyRound className="w-4 h-4" />} label="输入邀请码" />
-          <NavItem icon={<Users className="w-4 h-4" />} label="团队成员" />
-          <NavItem icon={<FolderOpen className="w-4 h-4" />} label="Shared with me" />
+          <NavItem icon={<Star className="w-4 h-4 fill-current" />} label="全部项目" active />
+          <NavItem icon={<FolderOpen className="w-4 h-4" />} label="与我分享收藏" />
 
-          <SectionLabel>Favorites</SectionLabel>
-          <div className="px-3 py-2 text-[13px] text-[#111111]">No favorites yet</div>
-
-          <NavItem icon={<FolderOpen className="w-4 h-4" />} label="Recent Projects" indent />
-          <NavItem icon={<FolderOpen className="w-4 h-4" />} label="上海图书馆东馆" indent />
-
-          <SectionLabel>Workspace</SectionLabel>
-          <NavItem icon={<Grid3X3 className="w-4 h-4" />} label="我的受邀项目" active />
-
-          <SectionLabel>Private</SectionLabel>
-          <NavItem icon={<Lock className="w-4 h-4" />} label="All Private" />
+          <div className="mt-6 space-y-1">
+            <SectionToggle
+              label="收藏"
+              expanded={expandedSection === "favorites"}
+              onClick={() => setExpandedSection(expandedSection === "favorites" ? null : "favorites")}
+              items={mockProjects.slice(0, 3)}
+              onSelectProject={onSelectProject}
+            />
+            <SectionToggle
+              label="最近的项目"
+              expanded={expandedSection === "recent"}
+              onClick={() => setExpandedSection(expandedSection === "recent" ? null : "recent")}
+              items={mockProjects.slice(3, 6)}
+              onSelectProject={onSelectProject}
+            />
+          </div>
         </nav>
 
-        <div className="p-4 border-t border-[#e5e5e5]">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span className="text-[13px] text-[#111111]">NAS 已联通</span>
-            <span className="text-[13px] text-[#111111] ml-auto">3 项目</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <button className="text-[#111111] hover:text-black transition-colors"><Settings className="w-5 h-5" /></button>
-            <button className="text-[#111111] hover:text-black transition-colors"><Trash2 className="w-5 h-5" /></button>
-            <button className="text-[#111111] hover:text-black transition-colors"><CircleHelp className="w-5 h-5" /></button>
-          </div>
-        </div>
+        <div className="p-4 border-t border-[#e5e5e5] text-[12px] text-[#111111]">项目筛选与收藏入口</div>
       </aside>
 
       <main className="flex-1 flex flex-col">
@@ -122,17 +115,56 @@ export function ProjectSelection({ onSelectProject }: { onSelectProject: (projec
   )
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <div className="pt-4 px-3 py-2 text-[11px] font-medium text-[#111111] uppercase tracking-[0.05em]">{children}</div>
+function SectionToggle({
+  label,
+  expanded,
+  onClick,
+  items,
+  onSelectProject,
+}: {
+  label: string
+  expanded: boolean
+  onClick: () => void
+  items: Project[]
+  onSelectProject: (project: Project) => void
+}) {
+  return (
+    <div className="rounded-none border-0 bg-transparent">
+      <button
+        type="button"
+        onClick={onClick}
+        className="flex w-full items-center gap-2 px-3 py-2 text-[14px] font-medium text-[#111111] hover:bg-transparent transition-colors"
+      >
+        <span className="flex-1 text-left">{label}</span>
+        <ChevronRight className={`h-4 w-4 transition-transform ${expanded ? "rotate-90" : ""}`} />
+      </button>
+      {expanded && (
+        <div className="px-2 pb-2 space-y-1">
+          {items.map((project) => (
+            <button
+              key={project.id}
+              type="button"
+              onClick={() => onSelectProject(project)}
+              className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-[13px] text-[#111111] hover:bg-[#f0f0f0] transition-colors"
+            >
+              <span className="truncate">{project.name}</span>
+              <span className="text-[11px] text-[#666666]">{project.type}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
-function NavItem({ icon, label, badge, active, indent }: { icon: React.ReactNode; label: string; badge?: string; active?: boolean; indent?: boolean }) {
+function NavItem({ icon, label, badge, active, indent, iconPosition = "left" }: { icon: React.ReactNode; label: string; badge?: string; active?: boolean; indent?: boolean; iconPosition?: "left" | "right" }) {
   return (
     <button
       className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg text-[14px] font-medium tracking-[-0.01em] transition-colors ${active ? "bg-[#ededed] text-[#111111]" : "text-[#111111] hover:bg-[#f0f0f0]"} ${indent ? "pl-6" : ""}`}
     >
-      <span className="text-[#111111]">{icon}</span>
+      {iconPosition === "left" ? <span className="text-[#111111]">{icon}</span> : null}
       <span className="flex-1 text-left truncate">{label}</span>
+      {iconPosition === "right" ? <span className="text-[#111111]">{icon}</span> : null}
       {badge && <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-500 text-black">{badge}</span>}
     </button>
   )
