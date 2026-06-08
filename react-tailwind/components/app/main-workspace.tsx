@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Bell, Bot, FileText, Grid3X3, Settings } from "lucide-react"
-import { FloraCanvas } from "@/components/flora/flora-canvas"
+import { RemixCanvasDetail } from "@/components/flora/remix-canvas-detail"
 import { mockAssets } from "@/lib/mock-data"
 import type { CanvasSubview, Project, WorkspaceTab } from "@/lib/types"
 import { AIChat } from "./ai-chat"
@@ -28,7 +28,7 @@ export function MainWorkspace({ project, onLogout }: { project: Project; onLogou
   }
 
   return (
-    <div className="min-h-screen bg-white text-[#111111] flex flex-col">
+    <div className="h-screen bg-white text-[#111111] flex flex-col overflow-hidden">
       <header className="h-14 border-b border-[#e5e5e5] flex items-center justify-between px-4 bg-white backdrop-blur-xl">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1">
@@ -79,7 +79,7 @@ export function MainWorkspace({ project, onLogout }: { project: Project; onLogou
         </div>
       </header>
 
-      <main className="flex-1 overflow-hidden bg-white">
+      <main className="h-[calc(100vh-56px)] min-h-0 overflow-hidden bg-white">
         {activeTab === "ai-chat" && <AIChat />}
         {activeTab === "asset-library" && <AssetLibrary onAddToCanvas={() => openCanvas(activeCanvasId)} />}
         {activeTab === "canvas" && (
@@ -112,7 +112,7 @@ export function MainWorkspace({ project, onLogout }: { project: Project; onLogou
 }
 
 function CanvasDetail({ onBack }: { onBack: () => void }) {
-  return <FloraCanvas onBack={onBack} />
+  return <RemixCanvasDetail onBack={onBack} />
 }
 
 function AssetLibrary({ onAddToCanvas }: { onAddToCanvas: () => void }) {

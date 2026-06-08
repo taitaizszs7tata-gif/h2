@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --ds-surface: #ffffff;
+  --ds-surface-subtle: #fafafa;
+  --ds-control: #eeeeee;
+  --ds-control-active: #ededed;
+  --ds-control-hover: #f0f0f0;
+  --ds-control-soft: #f5f5f5;
+
+  --ds-ink: #111111;
+  --ds-ink-hover: #333333;
+  --ds-ink-muted: #555555;
+  --ds-ink-subtle: #777777;
+  --ds-ink-inverse: #ffffff;
+
+  --ds-border: #e5e5e5;
+  --ds-border-strong: #dddddd;
+  --ds-border-control: #d5d5d5;
+
+  --ds-brand: #ff4b2f;
+  --ds-success: #10b981;
+  --ds-danger: #f43f5e;
+
+  --ds-topbar-height: 56px;
+  --ds-footer-height: 48px;
+  --ds-sidebar-width: 260px;
+  --ds-collab-panel-width: 400px;
+
+  --ds-radius-control: 8px;
+  --ds-radius-card: 12px;
+  --ds-radius-workspace: 14px;
+  --ds-radius-panel: 16px;
+  --ds-radius-pill: 999px;
+
+  --ds-shadow-control: 0 1px 6px rgba(0, 0, 0, 0.04);
+  --ds-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --ds-shadow-elevated: 0 16px 48px rgba(0, 0, 0, 0.12);
+}
+
+@theme inline {
+  --color-ds-surface: var(--ds-surface);
+  --color-ds-surface-subtle: var(--ds-surface-subtle);
+  --color-ds-control: var(--ds-control);
+  --color-ds-control-active: var(--ds-control-active);
+  --color-ds-control-hover: var(--ds-control-hover);
+  --color-ds-control-soft: var(--ds-control-soft);
+  --color-ds-ink: var(--ds-ink);
+  --color-ds-ink-muted: var(--ds-ink-muted);
+  --color-ds-ink-subtle: var(--ds-ink-subtle);
+  --color-ds-ink-inverse: var(--ds-ink-inverse);
+  --color-ds-border: var(--ds-border);
+  --color-ds-border-strong: var(--ds-border-strong);
+  --color-ds-brand: var(--ds-brand);
+  --color-ds-success: var(--ds-success);
+  --color-ds-danger: var(--ds-danger);
+}
+
+body {
+  background: var(--ds-surface);
+  color: var(--ds-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
