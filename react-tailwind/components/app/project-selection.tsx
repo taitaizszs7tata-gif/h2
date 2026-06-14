@@ -2,13 +2,16 @@
 
 import { useMemo, useState } from "react"
 import { Bell, ChevronDown, ChevronRight, FolderOpen, KeyRound, Plus, Search, Star } from "lucide-react"
+import { hasAccessibleProjects } from "@/lib/auth-client"
 import { mockProjects } from "@/lib/mock-data"
 import type { Project } from "@/lib/types"
 
 export function ProjectSelection({ onSelectProject }: { onSelectProject: (project: Project) => void }) {
   const [searchQuery, setSearchQuery] = useState("")
   const [expandedSection, setExpandedSection] = useState<"favorites" | "recent" | null>(null)
+  const canAccessProjects = hasAccessibleProjects()
   const projects = useMemo(() => {
+    if (!canAccessProjects) return []
     const query = searchQuery.trim().toLowerCase()
     if (!query) return mockProjects
     return mockProjects.filter((project) =>
@@ -17,7 +20,7 @@ export function ProjectSelection({ onSelectProject }: { onSelectProject: (projec
         .toLowerCase()
         .includes(query)
     )
-  }, [searchQuery])
+  }, [canAccessProjects, searchQuery])
 
   return (
     <div className="min-h-screen bg-white text-[#111111] flex">
@@ -98,12 +101,20 @@ export function ProjectSelection({ onSelectProject }: { onSelectProject: (projec
             <span className="text-[13px] text-[#111111] uppercase tracking-[0.02em]">已接受邀请的建筑项目</span>
           </div>
 
-          <div className="grid grid-cols-4 gap-5">
-            <NewProjectCard />
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} onClick={() => project.inviteStatus === "accepted" && onSelectProject(project)} />
-            ))}
-          </div>
+          {projects.length === 0 ? (
+            <div className="flex h-[360px] flex-col items-center justify-center rounded-xl border border-dashed border-[#e5e5e5] bg-[#fafafa] text-center">
+              <KeyRound className="mb-4 h-8 w-8 text-[#555555]" />
+              <div className="text-[16px] font-semibold text-[#111111]">暂无可访问项目</div>
+              <div className="mt-2 text-[14px] text-[#555555]">请联系管理员添加项目权限</div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-4 gap-5">
+              <NewProjectCard />
+              {projects.map((project) => (
+                <ProjectCard key={project.id} project={project} onClick={() => project.inviteStatus === "accepted" && onSelectProject(project)} />
+              ))}
+            </div>
+          )}
         </div>
 
         <footer className="h-12 border-t border-[#e5e5e5] bg-white flex items-center justify-between px-6">

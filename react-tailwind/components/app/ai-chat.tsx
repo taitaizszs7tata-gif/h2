@@ -28,6 +28,7 @@ export function AIChat() {
     
     const newMessage: ChatMessage = {
       id: Date.now().toString(),
+      sessionId: "s1",
       sender: "user",
       senderName: "主创建筑师",
       content: inputValue,
