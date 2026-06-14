@@ -2,6 +2,12 @@
 
 这是 H2 Architecture AI 的当前产品项目。后续所有开发必须先阅读本文件和 `DESIGN.md`，再修改页面或组件。
 
+## 页面预览
+
+![H2 Architecture AI 页面预览](./public/preview.png)
+
+> 后续更新网页截图时，直接替换 `react-tailwind/public/preview.png`，不要改 README 图片路径。
+
 ## 技术栈
 
 - Next.js App Router
