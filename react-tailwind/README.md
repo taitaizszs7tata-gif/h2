@@ -4,9 +4,15 @@
 
 ## 页面预览
 
-![H2 Architecture AI 页面预览](./public/preview.png)
+### 登录页
 
-> 后续更新网页截图时，直接替换 `react-tailwind/public/preview.png`，不要改 README 图片路径。
+![H2 Architecture AI 登录页](./public/previews/login.png)
+
+### 项目列表
+
+![H2 Architecture AI 项目列表](./public/previews/projects.png)
+
+> 后续更新网页截图时，直接替换 `react-tailwind/public/previews/` 里的同名图片，不要改 README 图片路径。
 
 ## 技术栈
 

@@ -38,7 +38,7 @@
 | 3 | `view="workspace"` | `MainWorkspace` | 项目工作区 |
 | 4 | `activeTab="canvas"` + `canvasSubview="categories"` | `CanvasCategories` | 画布分类 |
 | 5 | `activeTab="canvas"` + `canvasSubview="lobby"` | `CanvasLobby` | 公共/个人画布大厅 |
-| 6 | `activeTab="canvas"` + `canvasSubview="detail"` | `CanvasDetail` / `RemixCanvasDetail` | 画布详情 |
+| 6 | `activeTab="canvas"` + `canvasSubview="detail"` | `CanvasDetail` / `FloraCanvas` | 画布详情 |
 
 如果后续改成真实 URL，也必须保留同样层级。
 
@@ -95,13 +95,13 @@
 
 ## 画布详情规则
 
-画布详情页目前由 `RemixCanvasDetail` 负责嵌入外部画布体验。修改时必须保证：
+画布详情页必须使用当前项目内部的 `FloraCanvas`，不能依赖另一个本地项目、外部 iframe 或额外端口。修改时必须保证：
 
 - 顶部全局导航仍保留。
 - 详情区域占满顶部导航下方剩余高度。
 - 返回按钮回到画布大厅。
 - 不改变登录、项目列表、画布分类、画布大厅的前置流程。
-- 外部画布可以更新，但不能接管整个应用路由层级。
+- 禁止把画布详情改成 `http://127.0.0.1:3001` 等外部服务 iframe。
 
 ## 登录规则
 
@@ -109,6 +109,7 @@
 
 必须保留：
 
+- 打开 `/` 必须显示登录页，不能因为本地 session 自动跳过登录入口。
 - 登录成功进入 `/projects`。
 - 登录失败提示统一错误，不指明账号或密码哪个错。
 - 首次登录提示绑定手机号或邮箱。

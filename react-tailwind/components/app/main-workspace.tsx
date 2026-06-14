@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Bell, Bot, FileText, Grid3X3, Settings } from "lucide-react"
-import { RemixCanvasDetail } from "@/components/flora/remix-canvas-detail"
+import { FloraCanvas } from "@/components/flora/flora-canvas"
 import { mockAssets } from "@/lib/mock-data"
 import type { CanvasSubview, Project, WorkspaceTab } from "@/lib/types"
 import { AIChat } from "./ai-chat"
@@ -112,7 +112,7 @@ export function MainWorkspace({ project, onLogout }: { project: Project; onLogou
 }
 
 function CanvasDetail({ onBack }: { onBack: () => void }) {
-  return <RemixCanvasDetail onBack={onBack} />
+  return <FloraCanvas onBack={onBack} />
 }
 
 function AssetLibrary({ onAddToCanvas }: { onAddToCanvas: () => void }) {
