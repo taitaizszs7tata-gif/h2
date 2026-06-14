@@ -1,0 +1,27 @@
+{
+  "name": "@archboard/design-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Executable design system extracted from the H2 Architecture AI project.",
+  "type": "module",
+  "scripts": {
+    "check": "tsc -p tsconfig.json --noEmit"
+  },
+  "sideEffects": [
+    "./tokens/globals.css"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0"
+  },
+  "exports": {
+    "./components/ui": "./components/ui/index.ts",
+    "./tokens": "./tokens/tokens.ts",
+    "./tokens/globals.css": "./tokens/globals.css"
+  }
+}
